@@ -6,13 +6,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.transaction.Status;
+import jdk.jshell.Snippet;
 import org.hibernate.boot.models.xml.internal.UserTypeCases;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.UUID;
 
 @Entity
 public class UserModel extends PanacheEntity{
+    private static final Logger log = LoggerFactory.getLogger(UserModel.class);
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
@@ -33,6 +38,10 @@ public class UserModel extends PanacheEntity{
     }
 
     public void setName(String name) {
+        if (name == null || name.isBlank()) {
+            System.out.println("name field is null or blank");
+            return;
+        }
         this.name = name;
     }
 
